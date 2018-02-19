@@ -36,7 +36,7 @@ not_healthy(chips).
 options(breads) :- breads(X), write('Available in 6-inch and footlong sizes: '), write(X).
 options(main) :- main(X), write('Guarantee fresh and tasty: '), write(X).
 options(veggies) :- veggies(X), write('Our wide variety of fresh veggies: '), write(X).
-options(sauce) :- sauce(X), write('Finish off your sandwich or salad with one of our delicious sauces: '), write(X).
+options(sauce) :- sauce(X), write('Finish off your sandwich with one of our delicious sauces: '), write(X).
 options(sides) :- sides(X), write('Our sandwiches are even better when paired with the perfect sides: '), write(X).
 
 :- dynamic(selected/2). /* stores selected items */
@@ -88,6 +88,7 @@ done(1) :- write('You ordered '), selected(M, meal), write([M]), write(' meal op
            (selected(B, main), write([B]), write(' for main fillings, ');selected(vegan, meal)),
            selected(C, veggie), write(C), write(' for veggies, '), selected(D, sauce), write(D), write(' for sauce and '), selected(E, side), write(E), 
            writeln(' for sides.'), write('Thank you for using Subway Sandwich Interactor. See you again soon! :)'), !.
-           
+
+/* delete all flags and reinitialize selected predicate then start over */
 restart(1) :- retractall(flag(X)), retractall(selected(Y, Z)), assertz(selected([], veggie)),
               assertz(selected([], sauce)), assertz(selected([], side)), start(1).
