@@ -39,15 +39,15 @@ options(veggies) :- veggies(X), write('Our wide variety of fresh veggies: '), wr
 options(sauce) :- sauce(X), write('Finish off your sandwich with one of our delicious sauces: '), write(X).
 options(sides) :- sides(X), write('Our sandwiches are even better when paired with the perfect sides: '), write(X).
 
-:- dynamic(selected/2). /* stores selected items */
+:- dynamic(selected/2). /* buffer to hold selected items */
 :- dynamic(flag/1). /* flags for flow control */
 /* pre-initializes list for item that can be selected more than once. */
 selected([], veggie).
 selected([], sauce).
 selected([], side).
-/* print items from list and if applicable, filter out non-vegan or unhealthy item */
+/* iterate through list and print filtered items depending on selected meal */
 print([]). /* terminating case */
-/* skip if customer chose vegan or healthy meal option */
+/* skip non-vegan or unhealthy item if customer chose vegan or healthy meal option */
 print([H|T]) :- (not_vegan(H), selected(vegan, meal); not_healthy(H), selected(healthy, meal)), print(T), !. 
 print([H|T]) :- write(H), write(" | "), print(T), !.
 
